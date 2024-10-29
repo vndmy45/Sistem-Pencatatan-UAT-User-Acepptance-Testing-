@@ -1,4 +1,8 @@
 <div>
+    <div class="container mt-4">
+        <h5 class="mb-3">Grafik Jumlah Test Cases Berdasarkan Progress</h5>
+        <canvas id="testCasesChart"></canvas>
+    </div>
     <!-- Hasil Test Saya Table -->
     <div class="container mt-4">
         <h5 class="mb-3">Hasil Test Saya</h5>
@@ -124,3 +128,53 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chartData = @json($chartData); // Data dari backend
+
+        // Pisahkan data label dan total untuk digunakan di Chart.js
+        const labels = chartData.map(item => item.label);
+        const data = chartData.map(item => item.progress);
+
+        const ctx = document.getElementById('testCasesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels, // Label setiap status
+                datasets: [{
+                    label: 'Jumlah TestCase per Progress',
+                    data: data, // Jumlah test result per status
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',  // Warna merah
+                        'rgba(54, 162, 235, 0.6)',  // Warna biru
+                        'rgba(255, 206, 86, 0.6)',  // Warna kuning
+                        'rgba(75, 192, 192, 0.6)',  // Warna hijau
+                        'rgba(153, 102, 255, 0.6)', // Warna ungu
+                        'rgba(255, 159, 64, 0.6)'   // Warna oranye
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',  // Warna merah
+                        'rgba(54, 162, 235, 1)',  // Warna biru
+                        'rgba(255, 206, 86, 1)',  // Warna kuning
+                        'rgba(75, 192, 192, 1)',  // Warna hijau
+                        'rgba(153, 102, 255, 1)', // Warna ungu
+                        'rgba(255, 159, 64, 1)'   // Warna oranye
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
